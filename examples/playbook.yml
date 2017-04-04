@@ -1,0 +1,7 @@
+- name: Run cookiecutter_repo role
+  hosts: all
+  user: root
+  roles:
+    - { role: "cookiecutter_repo", tags: [ "cookiecutter_repo" ] }
+  vars:
+    cookiecutter_test_var: "New cookiecutter repo message"

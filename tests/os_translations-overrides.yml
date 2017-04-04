@@ -1,0 +1,31 @@
+---
+tempest_run: yes
+tempest_venv_tag: "{{ tempest_git_install_branch }}"
+tempest_venv_bin: "/opt/tempest_{{ tempest_venv_tag }}/bin"
+tempest_log_dir: "/var/log/"
+tempest_plugins:
+  - name: tempest-horizon
+    repo: https://github.com/openstack/tempest-horizon
+    branch: master
+
+tempest_test_whitelist:
+  - tempest_horizon.tests.scenario.test_dashboard_basic_ops.TestDashboardBasicOps
+  - tempest.scenario.test_server_basic_ops.TestServerBasicOps.test_server_basic_ops
+
+tempest_tempest_conf_overrides:
+  dashboard:
+    disable_ssl_certificate_validation: True
+
+horizon_config_overrides:
+  X_TEST_OPTION: True
+
+neutron_provider_networks:
+  network_types: "vxlan,flat"
+  network_mappings: "flat:eth12"
+  network_vxlan_ranges: "1:1000"
+
+# The horizon role needs to create the nova endpoint - so needs access to the following vars
+nova_service_name: nova
+nova_service_type: compute
+nova_service_description: "Nova Compute Service"
+nova_service_port: 8774
